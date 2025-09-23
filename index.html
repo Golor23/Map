@@ -66,7 +66,7 @@
   <div class="card">
     <h2>Evacuation Centers Map</h2>
     <div id="map"></div>
-    <button class="back-btn" onclick="closePage()">CLOSE</button>
+    <button class="back-btn" onclick="closePage()">Phivolcs Earthquake Records</button>
   </div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
@@ -87,7 +87,7 @@
     ];
 
     // Center map on the first pin
-    var map = L.map('map').setView(locations[0].coords, 15);
+    var map = L.map('map').setView(locations[0].coords, 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
@@ -103,10 +103,11 @@
     });
 
     function closePage() {
-      window.location.href = 'https://web.telegram.org/a/#-4634986553'; // Replace with your Telegram group chat URL
+      window.location.href = 'https://earthquake.phivolcs.dost.gov.ph/'; // Replace with your Telegram group chat URL
     }
   </script>
 </body>
 
 </html>
+
 
