@@ -150,6 +150,24 @@
       );
     });
 
+     if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var userLatLng = [position.coords.latitude, position.coords.longitude];
+        var userMarker = L.marker(userLatLng, {
+          icon: L.icon({
+            iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-red.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+            shadowSize: [41, 41]
+          })
+        }).addTo(map);
+        userMarker.bindPopup('<b>Your Location</b>').openPopup();
+ 
+      }, function(error) {
+      
+      });
     function closePage() {
       window.location.href = 'https://earthquake.phivolcs.dost.gov.ph/'; // Replace with your Telegram group chat URL
     }
@@ -157,6 +175,7 @@
 </body>
 
 </html>
+
 
 
 
