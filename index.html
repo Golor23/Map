@@ -66,11 +66,12 @@
     <h2>Evacuation Centers Map</h2>
     <div id="map"></div>
     <button class="back-btn" onclick="closePage()">Phivolcs Observation Records</button>
+    <button id="nearest-btn" class="back-btn" style="display:none;margin-top:8px;" onclick="navigateToNearest()">Navigate to Nearest</button>
   </div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     var locations = [
-     {
+      {
         coords: [13.9380069, 121.1183754],
         name: 'Transville Covered Court'
       },
@@ -134,9 +135,12 @@
 
     var map;
 
+    var userLatLng = null;
+    var nearestLoc = null;
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        var userLatLng = [position.coords.latitude, position.coords.longitude];
+        userLatLng = [position.coords.latitude, position.coords.longitude];
         map = L.map('map').setView(userLatLng, 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
@@ -165,6 +169,14 @@
             '<a href="' + gmapsUrl + '" target="_blank" rel="noopener">Navigate</a>'
           );
         });
+
+        // Find nearest location
+        nearestLoc = locations.reduce(function(prev, curr) {
+          var prevDist = Math.hypot(prev.coords[0] - userLatLng[0], prev.coords[1] - userLatLng[1]);
+          var currDist = Math.hypot(curr.coords[0] - userLatLng[0], curr.coords[1] - userLatLng[1]);
+          return (currDist < prevDist) ? curr : prev;
+        });
+        document.getElementById('nearest-btn').style.display = 'inline-block';
       }, function(error) {
         // If denied or error, fallback to default center
         map = L.map('map').setView(locations[0].coords, 10);
@@ -203,7 +215,13 @@
     function closePage() {
       window.location.href = 'https://earthquake.phivolcs.dost.gov.ph/';
     }
+
+    function navigateToNearest() {
+      if (nearestLoc) {
+        var gmapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + nearestLoc.coords[0] + ',' + nearestLoc.coords[1] + '&travelmode=driving';
+        window.open(gmapsUrl, '_blank');
+      }
+    }
   </script>
 </body>
 </html>
-
