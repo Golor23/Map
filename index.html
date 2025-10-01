@@ -1,4 +1,3 @@
-<!-- Example: Evacuation Centers Map page using Leaflet.js and OpenStreetMap -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,11 +65,10 @@
   <div class="card">
     <h2>Evacuation Centers Map</h2>
     <div id="map"></div>
-    <button class="back-btn" onclick="closePage()">Phivolcs Earthquake Records</button>
+    <button class="back-btn" onclick="closePage()">Phivolcs Observation Records</button>
   </div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Example evacuation centers
     var locations = [
       {
         coords: [13.9380069, 121.1183754],
@@ -78,81 +76,22 @@
       },
       {
         coords: [13.935641, 121.118405],
-        name: 'Rafael M. Lojo Memorial School'
-      },
-      {
-        coords: [13.962922, 121.174253],
-        name: 'Kolehiyo ng Lungsod ng Lipa'
-      },
-      {
-        coords: [14.1069294, 121.1391833],
-        name: 'evacuation center of sto. tomas batangas'
-      },
-       {
-        coords: [14.093593, 121.028934],
-        name: 'Tumaway Evacuation Center, Talisay'
-      },
-       {
-        coords: [13.769563, 121.053045],
-        name: 'Batangas City Evacuation Center'
-      },
-       {
-        coords: [13.769563, 121.053045],
-        name: 'Batangas City Evacuation Center'
-      },
-       {
-        coords: [14.124012, 120.988848],
-        name: 'Tagaytay City Permanent Evacuation Center'
-      },
-       {
-        coords: [14.385894, 120.901966],
-        name: 'Evacuation Center For Taal Eruption - Barangay Navarro'
-      },
-       {
-        coords: [13.650179, 121.208105],
-        name: 'Disaster Operation Evacuation Center'
-      },
-       {
-        coords: [13.867908, 120.968928],
-        name: 'Calayaan Evacuation and Sports Center'
-      },
-       {
-        coords: [13.861683, 120.969332],
-        name: 'Pacifico Evacuation and Sport Center'
-      },
-      {
-        coords: [13.861145, 120.961874],
-        name: 'Sampa Evacuation and Sport Center'
-      },
-      {
-        coords: [13.790709, 121.405998],
-        name: 'San Juan Evacuation Center'
-      },
-      {
-        coords: [14.019728, 120.731035],
-        name: 'TUY Evacuation Center'
+        name: 'Lipa City Evacuation Center'
       },
     ];
 
-    // Center map on the first pin
-    var map = L.map('map').setView(locations[0].coords, 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(map);
+    var map;
 
-    locations.forEach(function(loc) {
-      var marker = L.marker(loc.coords).addTo(map);
-      var gmapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + loc.coords[0] + ',' + loc.coords[1] + '&travelmode=driving';
-      marker.bindPopup(
-        '<b>' + loc.name + '</b><br>' +
-        '<a href="' + gmapsUrl + '" target="_blank" rel="noopener">Navigate</a>'
-      );
-    });
-
-     if (navigator.geolocation) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var userLatLng = [position.coords.latitude, position.coords.longitude];
+        map = L.map('map').setView(userLatLng, 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // User marker
         var userMarker = L.marker(userLatLng, {
           icon: L.icon({
             iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-red.png',
@@ -164,19 +103,54 @@
           })
         }).addTo(map);
         userMarker.bindPopup('<b>Your Location</b>').openPopup();
- 
+
+        // Add evacuation centers
+        locations.forEach(function(loc) {
+          var marker = L.marker(loc.coords).addTo(map);
+          var gmapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + loc.coords[0] + ',' + loc.coords[1] + '&travelmode=driving';
+          marker.bindPopup(
+            '<b>' + loc.name + '</b><br>' +
+            '<a href="' + gmapsUrl + '" target="_blank" rel="noopener">Navigate</a>'
+          );
+        });
       }, function(error) {
-      
+        // If denied or error, fallback to default center
+        map = L.map('map').setView(locations[0].coords, 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        locations.forEach(function(loc) {
+          var marker = L.marker(loc.coords).addTo(map);
+          var gmapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + loc.coords[0] + ',' + loc.coords[1] + '&travelmode=driving';
+          marker.bindPopup(
+            '<b>' + loc.name + '</b><br>' +
+            '<a href="' + gmapsUrl + '" target="_blank" rel="noopener">Navigate</a>'
+          );
+        });
       });
+    } else {
+      // Geolocation not supported
+      map = L.map('map').setView(locations[0].coords, 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      locations.forEach(function(loc) {
+        var marker = L.marker(loc.coords).addTo(map);
+        var gmapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + loc.coords[0] + ',' + loc.coords[1] + '&travelmode=driving';
+        marker.bindPopup(
+          '<b>' + loc.name + '</b><br>' +
+          '<a href="' + gmapsUrl + '" target="_blank" rel="noopener">Navigate</a>'
+        );
+      });
+    }
+
     function closePage() {
-      window.location.href = 'https://earthquake.phivolcs.dost.gov.ph/'; // Replace with your Telegram group chat URL
+      window.location.href = 'https://earthquake.phivolcs.dost.gov.ph/';
     }
   </script>
 </body>
-
 </html>
-
-
-
-
-
