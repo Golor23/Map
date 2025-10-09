@@ -7,43 +7,54 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    /* General Body Styling */
     body {
-      background: #f0f4f8;
+      background: linear-gradient(135deg, #00c6ff, #0072ff); /* Blue gradient */
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
     }
 
+    /* Card Container */
     .card {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
       border-radius: 18px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.2);
       max-width: 450px;
-      margin: 40px auto;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 30px;
       text-align: center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.05); /* Slight hover effect */
     }
 
     h2 {
-      color: #007bff;
+      color: #0072ff;
       font-size: 1.8em;
       margin-bottom: 20px;
+      font-weight: 700;
     }
 
+    /* Map Styling */
     #map {
       width: 100%;
       height: 400px;
       border-radius: 12px;
       margin-bottom: 20px;
-      background: #f5f7fa;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      background: #eaeaea;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
+    /* Button Styling */
     .back-btn {
-      background: linear-gradient(135deg, #007bff, #00b3e6);
+      background: #0072ff;
       color: #fff;
       border: none;
       border-radius: 30px;
@@ -53,17 +64,19 @@
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
       margin-top: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .back-btn:hover {
-      background: #005f8b;
-      transform: translateY(-2px);
+      background: #005ecf;
+      transform: translateY(-3px);
     }
 
     .back-btn:active {
       transform: translateY(0);
     }
 
+    /* Nearest Button Styling */
     #nearest-btn {
       background: #28a745;
       display: none;
@@ -74,10 +87,11 @@
       background: #218838;
     }
 
+    /* Mobile Responsive Design */
     @media (max-width: 500px) {
       .card {
-        max-width: 98vw;
-        padding: 12px;
+        max-width: 95vw;
+        padding: 18px;
       }
 
       #map {
@@ -89,6 +103,7 @@
         padding: 10px 28px;
       }
     }
+
   </style>
 </head>
 <body>
