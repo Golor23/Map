@@ -28,6 +28,7 @@
       max-width: 450px;
       padding: 30px;
       text-align: center;
+      position: relative; /* Allows positioning of the logo inside the card */
       transition: transform 0.3s ease-in-out;
     }
 
@@ -104,11 +105,29 @@
       }
     }
 
+    /* Logo Styling */
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10; /* Ensures the logo stays above other content */
+    }
+
+    #logo {
+      width: 50px; /* Adjust the size of the logo */
+      height: auto;
+    }
+
   </style>
 </head>
 <body>
 
   <div class="card">
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="https://github.com/Golor23/Map/blob/main/Seismo%20Logo.png" alt="Logo" id="logo"> <!-- Replace with actual logo path -->
+    </div>
+
     <h2>Evacuation Centers Map</h2>
     <div id="map"></div>
     <button class="back-btn" onclick="closePage()">Phivolcs Observation Records</button>
